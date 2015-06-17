@@ -1,0 +1,3 @@
+[submodule "deps/libfreefare"]
+	path = deps/libfreefare
+	url = https://github.com/nfc-tools/libfreefare

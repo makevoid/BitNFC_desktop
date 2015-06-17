@@ -1,0 +1,3 @@
+source "http://rubygems.org"
+
+gem "nfc"#, github: "tenderlove/nfc"
