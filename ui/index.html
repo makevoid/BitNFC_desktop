@@ -54,7 +54,7 @@
               Balance:
               <strong>{ balance } nxt ({ rate.usd } usd - { rate.eur } eur - { rate.btc } btc)</strong>
             </div>
-            <button class="btn btn-xs balance_check col-xs-1" id="refresh-balance">
+            <button class="btn btn-xs balance-check col-xs-1" id="refresh-balance">
               Check Balance
             </button>
           </div>
@@ -62,21 +62,19 @@
             <div class="panel-body col-xs-10 col-xs-offset-1">
               <div class="form-group">
                 <div class="row">
-                  <label for="wallet_address_to">Recipient address</label>
-                  <input class="form-control" id="wallet_address_to" name="address_to" placeholder="Enter bitcoin address" type="text">
+                  <label for="account-to">Recipient address</label>
+                  <input class="form-control" id="account-to" name="account-to" placeholder="Enter nxt account identifier" type="text">
                 </div>
                 <div class="row">
-                  <label for="amount">Amount</label>
-                  <input class="form-control col-xs-7" id="amount" name="address_to" placeholder="Enter amount" type="text">
-                  <select class="form-control col-xs-2" name="currency_to">
-                    <option>BTC</option>
-                    <option>mBTC</option>
-                    <option>bits</option>
-                  </select>
-                  <div class="col-xs-2">{ amountFiat }</div>
+                  <label for="public-key">Recipient public key</label>
+                  <input class="form-control" id="public-key-to" name="public-key" placeholder="Enter the public key" type="text">
+                </div>
+                <div class="row">
+                  <label for="amount-to">Amount</label>
+                  <input class="form-control col-xs-7" id="amount-to" name="amount-to" placeholder="Enter amount in nxt" type="number">
                 </div>
               </div>
-              <button class="btn btn-primary btn-send">
+              <button class="btn btn-primary btn-send" id="send-assets">
                 Send
               </button>
               <div class="space50"></div>

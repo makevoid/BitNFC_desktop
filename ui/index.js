@@ -9,6 +9,10 @@
     , currencyConvertionInterval = 1000 /*ms*/ * 60 /*sec*/ * 3 /*min*/
     , appElement = $('#app')
     , checkBalanceButtonElement = $('#refresh-balance')
+    , accountToSendElement = $('#account-to')
+    , publicKeyToSendElement = $('#public-key-to')
+    , amountToSendElement = $('#amount-to')
+    , sendAssetsButtonElement = $('#send-assets')
     , currencyConvertionIntervalIndentifier
     , onCurrencyConvertionIntervalTick = function onCurrencyConvertionIntervalTick() {
 
@@ -19,6 +23,18 @@
       mainWallet.getBalance();
       window.clearInterval(currencyConvertionIntervalIndentifier);
       currencyConvertionIntervalIndentifier = window.setInterval(onCurrencyConvertionIntervalTick, currencyConvertionInterval);
+    }
+    , onSendAssetsButtonElementClick = function onSendAssetsButtonElementClick() {
+
+      var accountToSendValue = accountToSendElement.val()
+        , publicKeyToSendValue = publicKeyToSendElement.val()
+        , amountToSendValue = amountToSendElement.val();
+      if (accountToSendValue ||
+        publicKeyToSendValue ||
+        amountToSendValue) {
+
+        mainWallet.send(amountToSendValue, accountToSendValue, Number(publicKeyToSendValue));
+      }
     }
 
   NXTWrapper.prototype.getAccount = function getAccount() {
@@ -50,21 +66,22 @@
     });
   };
 
-  NXTWrapper.prototype.send = function (amountToSend, accountIdToSend, accountPublicKeyToSend) {
+  NXTWrapper.prototype.send = function send(amountToSend, accountIdToSend, accountPublicKeyToSend) {
 
-    if (!amountToSend || !accountIdToSend || !accountPublicKeyToSend || window.isNaN(amountToSend)) {
+    if (!amountToSend ||
+      !accountIdToSend ||
+      !accountPublicKeyToSend) {
 
       throw 'Parameters are all manadatory or amount is not a number';
-    } else {
-
-      $.ajax({
-        'method': 'POST',
-        'url': '/send/' + amountToSend + '/' + accountIdToSend + '/' + accountPublicKeyToSend
-      }).done(function(response) {
-
-        window.console.log(response);
-      });
     }
+
+    $.ajax({
+      'method': 'POST',
+      'url': '/send/' + amountToSend + '/' + accountIdToSend + '/' + accountPublicKeyToSend
+    }).done(function(response) {
+
+      window.console.log(response);
+    });
   };
 
   NXTWrapper.prototype.currencyConvertion = function currencyConvertion() {
@@ -100,6 +117,7 @@
 
   rivets.bind(appElement, viewModel);
   checkBalanceButtonElement.on('click', onCheckBalanceButtonElementClick);
+  sendAssetsButtonElement.on('click', onSendAssetsButtonElementClick);
 
 /*
 // var bitcoin = Bitcoin.init()
