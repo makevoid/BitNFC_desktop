@@ -50,7 +50,6 @@ class NXTClient
   end
 
   def account
-    raise @account.inspect#.id.inspect
     # request not needed
     #
     # requestType=getAccount&account=<account_id>
