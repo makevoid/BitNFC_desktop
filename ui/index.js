@@ -6,11 +6,19 @@
     }
     , mainWallet
     , viewModel = {}
+    , currencyConvertionInterval = 1000 /*ms*/ * 60 /*sec*/ * 3 /*min*/
     , appElement = $('#app')
     , checkBalanceButtonElement = $('#refresh-balance')
+    , currencyConvertionIntervalIndentifier
+    , onCurrencyConvertionIntervalTick = function onCurrencyConvertionIntervalTick() {
+
+      mainWallet.currencyConvertion();
+    }
     , onCheckBalanceButtonElementClick = function onCheckBalanceButtonElementClick() {
 
       mainWallet.getBalance();
+      window.clearInterval(currencyConvertionIntervalIndentifier);
+      currencyConvertionIntervalIndentifier = window.setInterval(onCurrencyConvertionIntervalTick, currencyConvertionInterval);
     }
 
   NXTWrapper.prototype.getAccount = function getAccount() {
@@ -36,7 +44,7 @@
 
       if (response) {
 
-        viewModel.balance = response.nxt;
+        viewModel.nqtBalance = response.nqt;
         self.currencyConvertion();
       }
     });
@@ -65,19 +73,19 @@
       'url': '/rate'
     }).done(function(response) {
 
-      if (response && viewModel.balance) {
+      if (response && viewModel.nqtBalance) {
 
         var nxtToUsd = response['nxt_usd']
           , nxtToEur = response['nxt_eur']
           , nxtBtc = response['nxt_btc']
           , nqtToNxt = 100000000;
 
-        viewModel.balance = viewModel.balance / nqtToNxt;
+        viewModel.balance = viewModel.nqtBalance / nqtToNxt;
 
         viewModel.rate = {};
-        viewModel.rate.usd = viewModel.balance * nxtToUsd;
-        viewModel.rate.eur = viewModel.balance * nxtToEur;
-        viewModel.rate.btc = viewModel.balance * nxtBtc;
+        viewModel.rate.usd = Math.round(viewModel.balance * nxtToUsd * 100) / 100;
+        viewModel.rate.eur = Math.round(viewModel.balance * nxtToEur * 100) / 100;
+        viewModel.rate.btc = Math.round(viewModel.balance * nxtBtc * nqtToNxt) / nqtToNxt;
       }
     });
   };
@@ -86,6 +94,8 @@
 
   mainWallet.getAccount();
   mainWallet.getBalance();
+
+  currencyConvertionIntervalIndentifier = window.setInterval(onCurrencyConvertionIntervalTick, currencyConvertionInterval);
 
 
   rivets.bind(appElement, viewModel);
