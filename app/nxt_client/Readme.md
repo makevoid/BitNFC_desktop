@@ -1,7 +1,18 @@
+### NXT Client
+
 
 install deps
 
     bundle
+
+
+configure:
+
+    cp config/account.template.json config/account.json
+
+then edit the configs with your account id, public key and secret
+
+---
 
 run
 

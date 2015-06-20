@@ -15,24 +15,28 @@ def log(str)
   L.info str
 end
 
-CONFIG =
 
+path = File.expand_path "../", __FILE__
+account_path = "#{path}/config/account.json"
+account_not_found_message = "Please setup 'config/account.json' file with your credentials, because it doesn't exist and it probably failed to autogenerate (see readme)"
+raise account_not_found_message unless File.exist? account_path
+CONFIG = JSON.parse File.read account_path
 
 class Account
   def initialize
-
+    @config = CONFIG
   end
 
   def id
-    "NXT-DQK6-MEWH-8BAM-BKL3A"
+    @config[:id]
   end
 
   def public_key
-    "cfc65baff36ea0894c8dcd8bc20290501022811637eb860029a442d4fc3b210c"
+    @config[:public_key]
   end
 
   def secret
-    ""
+    @config[:secret]
   end
 end
 
@@ -47,20 +51,20 @@ class NXTClient
   end
 
   def account
-    # requestType=getBalance&account=<account_id>
-    # get
+    # request not needed
+    #
+    # requestType=getAccount&account=<account_id>
     {
-      id: "NXT-antani",
-      public_key: "antanicomeseffosse"
+      id:         @account.id,
+      public_key: @account.public_key
     }
   end
 
   def balance
-    # requestType=getBalance&account=<account_id>
-    # get(
-    #   requestType: :getBalance,
-    #   account:
-    # )
+    get(
+      requestType: :getBalance,
+      account:     @account.id
+    )
     { nxt: 1000000 }
   end
 
@@ -68,6 +72,7 @@ class NXTClient
 
     { success: "true", new_balance: "999999" }
   end
+
 
   private
 
@@ -122,6 +127,12 @@ post "/send" do#  |amount, address, public_key|
 
   log "TODO: implement"
   balance
+end
+
+get "/rate" do
+  url = "https://nxtblocks.info/xhr/market_direct/?id=NXT_stats"
+  resp = Net::HTTP.get_response URI url
+  resp.body
 end
 
 # p client.send
