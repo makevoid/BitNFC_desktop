@@ -1,0 +1,30 @@
+guard 'sass', input: 'sass', output: 'css'
+
+def msg(type, m)
+  m[0] + " has changed."
+end
+
+def exc(cmd)
+  puts "executing: #{cmd}"
+  puts `#{cmd}`
+  true
+end
+
+guard :shell do
+  watch /index\.js$/ do |m|
+    msg(:change, m)
+    exc "sh build.sh"
+  end
+
+  watch /index\.haml$/ do |m|
+    msg(:change, m)
+    haml_bin = "haml"
+    exc "#{haml_bin} index.haml > index.html"
+
+    # TODO: remove this
+    #
+    # html2haml = Gem.bin_path 'haml', 'html2haml'
+    # html2haml = "/usr/local/lib/ruby/gems/2.1.0/gems/haml-3.1.7/bin/html2haml"
+    # exc "#{html2haml} index.haml > index.html"
+  end
+end

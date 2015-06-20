@@ -1,5 +1,6 @@
-require 'ruby-nfc'
 require 'logger'
+require 'bundler/setup'
+Bundler.require :default
 
 $logger = Logger.new(STDOUT)
 
@@ -12,7 +13,8 @@ readers = NFC::Reader.all
 p "Available readers: #{readers}"
 
 # The order of tag types in poll arguments defines priority of tag types
-readers[0].poll(IsoDep::Tag, Mifare::Classic::Tag, Mifare::Ultralight::Tag) do |tag|
+# readers[0].poll(IsoDep::Tag, Mifare::Classic::Tag, Mifare::Ultralight::Tag) do |tag|
+readers[0].poll(Mifare::Ultralight::Tag) do |tag|
   begin
     p "Applied #{tag.class.name}: #{tag}"
 

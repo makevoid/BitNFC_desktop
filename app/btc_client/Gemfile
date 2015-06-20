@@ -1,0 +1,5 @@
+source "http://rubygems.org"
+
+gem "bitcoin-client", github: "makevoid/bitcoin-client", require: "bitcoin-client"
+
+gem "sinatra"

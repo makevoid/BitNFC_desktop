@@ -2,7 +2,7 @@
 
 Built using electrum
 
-Ruby/Coffee/Node BitcoinClient (Bitcoin Core) API 
+Ruby/Coffee/Node BitcoinClient (Bitcoin Core) API
 
 ### Installation
 
@@ -11,3 +11,11 @@ Ruby/Coffee/Node BitcoinClient (Bitcoin Core) API
 ### Build (Run)
 
     sh build.sh
+
+
+
+##### Submodules notes
+
+   git submodule init && git submodule update
+
+   git submodule add GIT_URL

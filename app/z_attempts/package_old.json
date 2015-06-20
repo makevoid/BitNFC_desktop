@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "mifare-classic": "0.0.2",
+    "ndef": "^0.1.2"
+  }
+}

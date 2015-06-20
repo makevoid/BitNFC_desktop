@@ -1,0 +1,16 @@
+source "http://rubygems.org"
+
+# gem "nfc"
+
+# gem "nfc", github: "tenderlove/nfc"
+# gem "nfc", github: "makevoid/nfc"
+
+gem "nfc", path: "/home/makevoid/apps/bitnfc_desktop/deps/nfc"
+
+
+# gem "ruby-nfc", github: "maximchick/ruby-nfc"
+# gem "ruby-nfc", path: "/home/makevoid/apps/bitnfc_desktop/deps/ruby-nfc"
+
+
+
+# gem "byebug"

@@ -1,0 +1,8 @@
+source "http://rubygems.org"
+
+gem "haml"
+# gem "haml-contrib"
+# gem "hpricot"
+
+gem "guard-sass"
+gem "guard-shell"

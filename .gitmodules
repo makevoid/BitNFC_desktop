@@ -1,3 +1,9 @@
 [submodule "deps/libfreefare"]
 	path = deps/libfreefare
 	url = https://github.com/nfc-tools/libfreefare
+[submodule "deps/nfc"]
+	path = deps/nfc
+	url = https://github.com/makevoid/nfc
+[submodule "deps/ruby-nfc"]
+	path = deps/ruby-nfc
+	url = https://github.com/maximchick/ruby-nfc
