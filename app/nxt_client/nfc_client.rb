@@ -119,14 +119,12 @@ end
 
 post "/send" do#  |amount, address, public_key|
   #  "/send/10000/NXT-antani/public_key_antani"
-  amount = params[:amount]
-  address = params[:address]
+  amount     = params[:amount]
+  address    = params[:address]
   public_key = params[:public_key]
 
-  balance = client.send(amount, address, public_key)
-
-  log "TODO: implement"
-  balance
+  response = client.send(amount, address, public_key)
+  response.to_json
 end
 
 get "/rate" do
