@@ -1,29 +1,44 @@
-/*global require window*/
-(function plainOldJs(require, window) {
+/*global rivets window*/
+(function plainOldJs(rivets, window) {
   'use strict';
 
-  var rivets = require('rivets')
-    , NXTWrapper = function NXTWrapper() {
+  var NXTWrapper = function NXTWrapper() {
     }
     , mainWallet
+    , viewModel = {}
+    , appElement = $('#app')
+    , checkBalanceButtonElement = $('#refresh-balance')
+    , onCheckBalanceButtonElementClick = function onCheckBalanceButtonElementClick() {
+
+      mainWallet.getBalance();
+    }
 
   NXTWrapper.prototype.getAccount = function getAccount() {
 
     $.ajax({
-      'url': '/adresss'
+      'url': '/account'
     }).done(function(response) {
 
-      window.console.log(response);
+      if (response) {
+
+        viewModel.address = response.id;
+        viewModel.publicKey = response["public_key"];
+      }
     });
   };
 
   NXTWrapper.prototype.getBalance = function getBalance() {
 
+    var self = this;
     $.ajax({
       'url': '/balance'
     }).done(function(response) {
 
-      window.console.log(response);
+      if (response) {
+
+        viewModel.balance = response.nxt;
+        self.currencyConvertion();
+      }
     });
   };
 
@@ -35,7 +50,7 @@
     } else {
 
       $.ajax({
-        'method': 'POST'
+        'method': 'POST',
         'url': '/send/' + amountToSend + '/' + accountIdToSend + '/' + accountPublicKeyToSend
       }).done(function(response) {
 
@@ -44,8 +59,37 @@
     }
   };
 
+  NXTWrapper.prototype.currencyConvertion = function currencyConvertion() {
+
+    $.ajax({
+      'url': '/rate'
+    }).done(function(response) {
+
+      if (response && viewModel.balance) {
+
+        var nxtToUsd = response['nxt_usd']
+          , nxtToEur = response['nxt_eur']
+          , nxtBtc = response['nxt_btc']
+          , nqtToNxt = 100000000;
+
+        viewModel.balance = viewModel.balance / nqtToNxt;
+
+        viewModel.rate = {};
+        viewModel.rate.usd = viewModel.balance * nxtToUsd;
+        viewModel.rate.eur = viewModel.balance * nxtToEur;
+        viewModel.rate.btc = viewModel.balance * nxtBtc;
+      }
+    });
+  };
+
   mainWallet = new NXTWrapper();
 
+  mainWallet.getAccount();
+  mainWallet.getBalance();
+
+
+  rivets.bind(appElement, viewModel);
+  checkBalanceButtonElement.on('click', onCheckBalanceButtonElementClick);
 
 /*
 // var bitcoin = Bitcoin.init()
@@ -147,4 +191,4 @@ var updateAmountFiat = function(evt) {
 $('#app').on('change', 'input[name=address_to]', updateAmountFiat)
 $('#app').on('change', 'input[name=currency_to]', updateAmountFiat)
 */
-}(require, window));
+}(rivets, window));
