@@ -44,6 +44,7 @@ end
 class NXTClient
 
   HOST = "http://jnxt.org:7876"
+  # HOST = "http://localhost:7876"
 
   def initialize
     @account = Account.new
@@ -64,16 +65,29 @@ class NXTClient
       requestType: :getBalance,
       account:     @account.id
     )
+
     {
       nqt: bal["balanceNQT"].to_i
     }
   end
 
-  def send(amount, address, pubkey=nil)
-    post(
-
+  def send_nxt(amount, account_id, public_key=nil)
+    resp = post(
+      requestType:        :sendMoney,
+      recipient:          account_id,
+      recipientPublicKey: public_key,
+      secretPhrase:       @account.secret,
+      amountNQT:          amount,
+      deadline:           60,
+      feeNQT:             100000000
     )
-    { success: "true", new_balance: "999999" }
+
+    log "send_nxt: #{resp}"
+    if resp["errorDescription"]
+      { error: resp["errorDescription"] }
+    else
+      { success: true, new_balance: "antani :D" }
+    end
   end
 
 
@@ -89,8 +103,12 @@ class NXTClient
     JSON.parse resp.body
   end
 
-  def post(url, params)
-    resp = Net::HTTP.post_form base_url
+  def post(params)
+    uri     = URI base_url
+    http    = Net::HTTP.new uri.host, uri.port
+    request = Net::HTTP::Post.new uri.request_uri
+    request.set_form_data params
+    resp    = http.request request
     JSON.parse resp.body
   end
 
@@ -124,13 +142,13 @@ get "/balance" do
   balance.to_json
 end
 
-post "/send" do#  |amount, address, public_key|
+post "/send" do#  |amount, account_id, public_key|
   #  "/send/10000/NXT-antani/public_key_antani"
   amount     = params[:amount]
-  address    = params[:address]
+  account_id = params[:account_id]
   public_key = params[:public_key]
-  log "send:(#{amount}, #{address}, #{public_key})"
-  response   = client.send(amount, address, public_key)
+  log "send:(#{amount}, #{account_id}, #{public_key})"
+  response   = client.send_nxt(amount, account_id, public_key)
   log "response: #{response}"
   response.to_json
 end
