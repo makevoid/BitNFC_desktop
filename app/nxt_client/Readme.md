@@ -5,10 +5,10 @@ install deps
 
 run
 
-    ruby nfc_client.rb
+    ruby nfc_client.rb -p 3001
 
 
-open http://localhost:4567/index.html
+open http://localhost:3001/index.html
 
 
 
@@ -16,8 +16,8 @@ API calls
 
 
 
-http://localhost:4567/address
+http://localhost:3001/address
 
-http://localhost:4567/balance
+http://localhost:3001/balance
 
-http://localhost:4567/send/<amount>/<nxt-account-id>/<pubkey>
+http://localhost:3001/send/<amount>/<nxt-account-id>/<pubkey>
