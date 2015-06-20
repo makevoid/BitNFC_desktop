@@ -3,6 +3,9 @@
 # config/env.rb
 require 'logger'
 require 'bundler/setup'
+
+require 'net/http'
+
 Bundler.require :default
 
 # logger
@@ -14,11 +17,12 @@ end
 
 class NXTClient
   def initialize
-
+    @uri = URI.parse("http://jnxt.org:7876")
   end
 
-  def address
+  def getaccountaddress(address)
 
+    Net::HTTP.get_response(@uri)
   end
 
   def balance
@@ -44,7 +48,8 @@ set :public_folder, "#{path}/ui"
 
 
 get "/address" do
-  address = client.getaccountaddress ""
+  address = params['title']
+  addressInformations = client.getaccountaddress address
   log "get_address: #{address}"
   { address: address }.to_json
 end
