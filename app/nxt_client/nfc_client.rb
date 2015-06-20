@@ -60,11 +60,13 @@ class NXTClient
   end
 
   def balance
-    get(
+    bal = get(
       requestType: :getBalance,
       account:     @account.id
     )
-    { nxt: 1000000 }
+    {
+      nqt: bal["balanceNQT"].to_i
+    }
   end
 
   def send(amount, address, pubkey=nil)
@@ -93,7 +95,7 @@ class NXTClient
   end
 
   def hash_to_query(hash)
-    CGI.unescape(hash).to_query
+    URI.encode_www_form hash
   end
 end
 
