@@ -33,7 +33,9 @@
         publicKeyToSendValue ||
         amountToSendValue) {
 
-        mainWallet.send(amountToSendValue, accountToSendValue, Number(publicKeyToSendValue));
+        mainWallet.send(Number(amountToSendValue * 100000000), accountToSendValue, publicKeyToSendValue);
+
+        alert("NXT payment sent!")
       }
     }
     , onInputClick = function onInputClick() {
@@ -84,6 +86,12 @@
 
   NXTWrapper.prototype.send = function send(amountToSend, accountIdToSend, accountPublicKeyToSend) {
 
+    // Account ID:    NXT-YWY7-6VGY-4CGV-F8MLK
+    // Public Key:    92a95ecec867980d2af3a7ca5a18b40e816e44e1ee7a7e513375dc7047768938
+
+
+    console.log(amountToSend, accountIdToSend, accountPublicKeyToSend)
+
     if (!amountToSend ||
       !accountIdToSend ||
       !accountPublicKeyToSend) {
@@ -93,7 +101,12 @@
 
     $.ajax({
       'method': 'POST',
-      'url': '/send/' + amountToSend + '/' + accountIdToSend + '/' + accountPublicKeyToSend
+      'url': '/send',
+      'data': {
+        'amount':     amountToSend,
+        'account_id': accountIdToSend,
+        'public_key': accountPublicKeyToSend
+      }
     }).done(function(response) {
 
       window.console.log(response);
@@ -107,10 +120,11 @@
     }).done(function(response) {
 
       if (response && viewModel.nqtBalance) {
-
+        console.log(response)
         var nxtToUsd = response['nxt_usd']
           , nxtToEur = response['nxt_eur']
-          , nxtBtc = response['nxt_btc']
+          // , nxtToGbp = response['nxt_gbp']
+          , nxtBtc   = response['nxt_btc']
           , nqtToNxt = 100000000;
 
         viewModel.balance = viewModel.nqtBalance / nqtToNxt;
@@ -118,6 +132,7 @@
         viewModel.rate = {};
         viewModel.rate.usd = Math.round(viewModel.balance * nxtToUsd * 100) / 100;
         viewModel.rate.eur = Math.round(viewModel.balance * nxtToEur * 100) / 100;
+        // viewModel.rate.gbp = Math.round(viewModel.balance * nxtToGbp * 100) / 100;
         viewModel.rate.btc = Math.round(viewModel.balance * nxtBtc * nqtToNxt) / nqtToNxt;
       }
     });
