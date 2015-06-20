@@ -28,21 +28,20 @@ class Account
   end
 
   def id
-    @config[:id]
+    @config[:id.to_s]
   end
 
   def public_key
-    @config[:public_key]
+    @config[:public_key.to_s]
   end
 
   def secret
-    @config[:secret]
+    @config[:secret.to_s]
   end
 end
 
 
 class NXTClient
-
 
   HOST = "http://jnxt.org:7876"
 
@@ -51,6 +50,7 @@ class NXTClient
   end
 
   def account
+    raise @account.inspect#.id.inspect
     # request not needed
     #
     # requestType=getAccount&account=<account_id>
@@ -69,21 +69,27 @@ class NXTClient
   end
 
   def send(amount, address, pubkey=nil)
+    post(
 
+    )
     { success: "true", new_balance: "999999" }
   end
 
 
   private
 
+  def base_url
+    "#{HOST}/nxt"
+  end
+
   def get(params)
-    uri  = URI "#{HOST}/nxt?#{hash_to_query(params)}"
+    uri  = URI "#{base_url}?#{hash_to_query(params)}"
     resp = Net::HTTP.get_response uri
     JSON.parse resp.body
   end
 
   def post(url, params)
-    resp = Net::HTTP.get_response uri
+    resp = Net::HTTP.post_form base_url
     JSON.parse resp.body
   end
 
@@ -122,8 +128,9 @@ post "/send" do#  |amount, address, public_key|
   amount     = params[:amount]
   address    = params[:address]
   public_key = params[:public_key]
-
-  response = client.send(amount, address, public_key)
+  log "send:(#{amount}, #{address}, #{public_key})"
+  response   = client.send(amount, address, public_key)
+  log "response: #{response}"
   response.to_json
 end
 
