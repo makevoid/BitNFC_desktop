@@ -2,8 +2,8 @@
 
 You are in the Bitcoin branch, these are the other versions of the desktop wallet:
 
-- ##### [You can switch to the NXT Branch](https://github.com/makevoid/nfc_desktop_wallet/tree/nxt)
-- ##### Doge (soon) :D
+- [You can switch to the NXT Branch](https://github.com/makevoid/nfc_desktop_wallet/tree/nxt) - Developed
+- Doge (soon) :D
 
 Built using electrum:
 

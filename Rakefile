@@ -1,9 +1,10 @@
 task default: [:run]
 
-task :run do 
+task :run do
   # ensure bitcoin core is running (if not already)
   # run btc_client
-  # run app 
+  # run app
+  puts `sh build.sh`
 end
 
 task :setup do
