@@ -1,10 +1,11 @@
 # NFC Desktop Wallet
 
-This is BitNFC:
+You are in the Bitcoin branch, these are the other versions of the desktop wallet:
 
-##### NXT Branch
+- ##### [You can switch to the NXT Branch](https://github.com/makevoid/nfc_desktop_wallet/tree/nxt)
+- ##### Doge (soon) :D
 
-Built using electrum
+Built using electrum:
 
 Ruby/Coffee/Node BitcoinClient (Bitcoin Core) API
 
