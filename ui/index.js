@@ -7,12 +7,12 @@
     , mainWallet
     , viewModel = {}
     , currencyConvertionInterval = 1000 /*ms*/ * 60 /*sec*/ * 3 /*min*/
-    , appElement = $('#app')
-    , checkBalanceButtonElement = $('#refresh-balance')
-    , accountToSendElement = $('#account-to')
-    , publicKeyToSendElement = $('#public-key-to')
-    , amountToSendElement = $('#amount-to')
-    , sendAssetsButtonElement = $('#send-assets')
+    , appElement                 = $('#app')
+    , checkBalanceButtonElement  = $('#refresh-balance')
+    , accountToSendElement       = $('#account-to')
+    , publicKeyToSendElement     = $('#public-key-to')
+    , amountToSendElement        = $('#amount-to')
+    , sendAssetsButtonElement    = $('#send-assets')
     , currencyConvertionIntervalIndentifier
     , onCurrencyConvertionIntervalTick = function onCurrencyConvertionIntervalTick() {
 
@@ -24,14 +24,15 @@
       window.clearInterval(currencyConvertionIntervalIndentifier);
       currencyConvertionIntervalIndentifier = window.setInterval(onCurrencyConvertionIntervalTick, currencyConvertionInterval);
     }
-    , onSendAssetsButtonElementClick = function onSendAssetsButtonElementClick() {
+    , onSendAssetsButtonElementClick   = function onSendAssetsButtonElementClick()   {
 
-      var accountToSendValue = accountToSendElement.val()
+      var accountToSendValue   = accountToSendElement.val()
         , publicKeyToSendValue = publicKeyToSendElement.val()
-        , amountToSendValue = amountToSendElement.val();
-      if (accountToSendValue ||
-        publicKeyToSendValue ||
-        amountToSendValue) {
+        , amountToSendValue    = amountToSendElement.val();
+
+      if (accountToSendValue     ||
+            publicKeyToSendValue ||
+            amountToSendValue       ) {
 
         mainWallet.send(Number(amountToSendValue * 100000000), accountToSendValue, publicKeyToSendValue);
 
@@ -44,9 +45,9 @@
         , publicKeyToSendValue = publicKeyToSendElement.val()
         , amountToSendValue = amountToSendElement.val();
 
-      if (accountToSendValue &&
-        publicKeyToSendValue &&
-        amountToSendValue) {
+      if (accountToSendValue      &&
+            publicKeyToSendValue  &&
+            amountToSendValue         ) {
 
         sendAssetsButtonElement.removeAttr('disabled');
       } else if (!sendAssetsButtonElement.is(':disabled')) {
@@ -85,12 +86,7 @@
   };
 
   NXTWrapper.prototype.send = function send(amountToSend, accountIdToSend, accountPublicKeyToSend) {
-
-    // Account ID:    NXT-YWY7-6VGY-4CGV-F8MLK
-    // Public Key:    92a95ecec867980d2af3a7ca5a18b40e816e44e1ee7a7e513375dc7047768938
-
-
-    console.log(amountToSend, accountIdToSend, accountPublicKeyToSend)
+    // console.log(amountToSend, accountIdToSend, accountPublicKeyToSend)
 
     if (!amountToSend ||
       !accountIdToSend ||
@@ -138,6 +134,9 @@
     });
   };
 
+
+  // main
+
   mainWallet = new NXTWrapper();
 
   mainWallet.getAccount();
@@ -147,13 +146,13 @@
 
 
   rivets.bind(appElement, viewModel);
-  checkBalanceButtonElement.on('click', onCheckBalanceButtonElementClick);
-  sendAssetsButtonElement.on('click', onSendAssetsButtonElementClick);
-  accountToSendElement.on('click', onInputClick);
-  publicKeyToSendElement.on('click', onInputClick);
-  amountToSendElement.on('click', onInputClick);
+  checkBalanceButtonElement.on( 'click', onCheckBalanceButtonElementClick);
+  sendAssetsButtonElement.on(   'click', onSendAssetsButtonElementClick);
+  accountToSendElement.on(      'click', onInputClick);
+  publicKeyToSendElement.on(    'click', onInputClick);
+  amountToSendElement.on(       'click', onInputClick);
 
-  accountToSendElement.on('blur', onInputClick);
-  publicKeyToSendElement.on('blur', onInputClick);
-  amountToSendElement.on('blur', onInputClick);
+  accountToSendElement.on(      'blur', onInputClick);
+  publicKeyToSendElement.on(    'blur', onInputClick);
+  amountToSendElement.on(       'blur', onInputClick);
 }(rivets, window));

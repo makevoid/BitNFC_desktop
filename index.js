@@ -25,9 +25,10 @@ app.on('ready', function() {
 
   // and load the index.html of the app.
   mainWindow.loadUrl('file://' + __dirname + '/index.html');
+  mainWindow.loadUrl('http://localhost:3001/index.html');
 
   // Open the devtools.
-  mainWindow.openDevTools();
+  // mainWindow.openDevTools();
 
   var privateKey = new bitcore.PrivateKey()
   console.log(privateKey.toWIF())
