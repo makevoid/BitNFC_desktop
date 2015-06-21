@@ -6,7 +6,7 @@
     }
     , mainWallet
     , viewModel = {}
-    , currencyConvertionInterval = 1000 /*ms*/ * 60 /*sec*/ * 3 /*min*/
+    , currencyConvertionInterval = 1000 * 60 * 3 // 3 min
     , appElement                 = $('#app')
     , checkBalanceButtonElement  = $('#refresh-balance')
     , accountToSendElement       = $('#account-to')
@@ -88,9 +88,9 @@
   NXTWrapper.prototype.send = function send(amountToSend, accountIdToSend, accountPublicKeyToSend) {
     // console.log(amountToSend, accountIdToSend, accountPublicKeyToSend)
 
-    if (!amountToSend ||
-      !accountIdToSend ||
-      !accountPublicKeyToSend) {
+    if (!amountToSend       ||
+          !accountIdToSend  ||
+          !accountPublicKeyToSend) {
 
       throw 'Parameters are all manadatory or amount is not a number';
     }
@@ -144,8 +144,8 @@
 
   currencyConvertionIntervalIndentifier = window.setInterval(onCurrencyConvertionIntervalTick, currencyConvertionInterval);
 
-
   rivets.bind(appElement, viewModel);
+
   checkBalanceButtonElement.on( 'click', onCheckBalanceButtonElementClick);
   sendAssetsButtonElement.on(   'click', onSendAssetsButtonElementClick);
   accountToSendElement.on(      'click', onInputClick);
