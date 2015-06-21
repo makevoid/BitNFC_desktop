@@ -1,6 +1,4 @@
 /*global rivets window*/
-(function plainOldJs(rivets, window) {
-  'use strict';
 
   var NXTWrapper = function NXTWrapper() {
     }
@@ -155,4 +153,3 @@
   accountToSendElement.on(      'blur', onInputClick);
   publicKeyToSendElement.on(    'blur', onInputClick);
   amountToSendElement.on(       'blur', onInputClick);
-}(rivets, window));

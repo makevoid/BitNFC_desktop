@@ -28,7 +28,7 @@ app.on('ready', function() {
   mainWindow.loadUrl('http://localhost:3001/index.html');
 
   // Open the devtools.
-  // mainWindow.openDevTools();
+  mainWindow.openDevTools();
 
   var privateKey = new bitcore.PrivateKey()
   console.log(privateKey.toWIF())

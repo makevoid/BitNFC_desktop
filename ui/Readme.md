@@ -1,19 +1,8 @@
-ui taken from https://github.com/makevoid/simplest_wallet_bootstrap
+# BitNFC Desktop wallet
 
-
-
-------
-
-
-
-### original readme
-
----
-
-powered by bitcoin-client, zepto.js, bootstrap ui
+powered by ruby sinatra, bitcoin-client, zepto.js, bootstrap ui
 
 desktop packaging with electron
-
 
 generate new addresses - shows private keys
 
